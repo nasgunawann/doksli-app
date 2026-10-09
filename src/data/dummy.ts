@@ -64,7 +64,7 @@ export const visualMatches = [
     faviconBg: '#e02020',
   },
   {
-    src: demoImage.src,
+    src: sourceImage.src,
     site: 'X',
     title: 'Unggahan @voxarea — versi yang beredar',
     display: 'x.com › voxarea',
@@ -72,7 +72,7 @@ export const visualMatches = [
     faviconBg: '#1c1b18',
   },
   {
-    src: demoImage.src,
+    src: sourceImage.src,
     site: 'Lampung Post',
     title: 'Artikel pakai versi "HP BARU"',
     display: 'lampungpost.com › nasional',
@@ -80,7 +80,7 @@ export const visualMatches = [
     faviconBg: '#0f766e',
   },
   {
-    src: demoImage.src,
+    src: sourceImage.src,
     site: 'Facebook',
     title: 'Sebaran di grup Ormas',
     display: 'facebook.com › groups',

@@ -1,13 +1,13 @@
 import TabayyunSection from './TabayyunSection'
-import ImageWithBoxes from './ImageWithBoxes'
-import { demoImage, tamperBox } from '../data/dummy'
+import HeroMockup from './HeroMockup'
+import StepIcon, { type StepIconName } from './StepIcon'
 
-const steps = [
-  'Unggah gambar yang ingin diperiksa.',
-  'Doksli membaca teks pada gambar (OCR).',
-  'Doksli menganalisis elemen visual gambar.',
-  'Doksli mencari kandidat sumber pembanding.',
-  'Teks dan visual dibandingkan, lalu indikasinya ditampilkan.',
+const steps: { icon: StepIconName; text: string }[] = [
+  { icon: 'upload', text: 'Unggah gambar yang ingin diperiksa.' },
+  { icon: 'ocr', text: 'Doksli membaca teks pada gambar (OCR).' },
+  { icon: 'visual', text: 'Doksli menganalisis elemen visual gambar.' },
+  { icon: 'search', text: 'Doksli mencari kandidat sumber pembanding.' },
+  { icon: 'compare', text: 'Teks dan visual dibandingkan, lalu indikasinya ditampilkan.' },
 ]
 
 export default function Landing({ onStart }: { onStart: () => void }) {
@@ -38,14 +38,7 @@ export default function Landing({ onStart }: { onStart: () => void }) {
         </div>
 
         <div className="mx-auto w-full max-w-sm lg:max-w-none">
-          <ImageWithBoxes
-            src={demoImage.src}
-            alt={demoImage.alt}
-            aspect={demoImage.aspect}
-            boxes={[tamperBox]}
-            title="Contoh indikasi"
-            description="Kotak menandai frasa yang tidak ada pada sumber aslinya."
-          />
+          <HeroMockup />
         </div>
       </section>
 
@@ -56,8 +49,8 @@ export default function Landing({ onStart }: { onStart: () => void }) {
         <ol className="reveal-list mt-6">
           {steps.map((step, i) => (
             <li
-              key={step}
-              className="flex items-baseline gap-5 border-t border-ink/15 py-4 last:border-b"
+              key={step.text}
+              className="flex items-center gap-4 border-t border-ink/15 py-4 last:border-b sm:gap-5"
             >
               <span
                 aria-hidden="true"
@@ -65,7 +58,13 @@ export default function Landing({ onStart }: { onStart: () => void }) {
               >
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <span className="text-lg leading-snug">{step}</span>
+              <span
+                aria-hidden="true"
+                className="flex h-10 w-10 shrink-0 items-center justify-center"
+              >
+                <StepIcon name={step.icon} />
+              </span>
+              <span className="text-lg leading-snug">{step.text}</span>
             </li>
           ))}
         </ol>

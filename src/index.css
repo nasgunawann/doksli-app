@@ -4,6 +4,7 @@
   --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "Lexend", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-arabic: "Noto Naskh Arabic", "Traditional Arabic", serif;
 
   --color-paper: #faf7f1;
   --color-ink: #1c1b18;
@@ -74,6 +75,20 @@ body {
   100% {
     box-shadow: 0 0 0 0 rgb(224 74 26 / 0);
   }
+}
+
+@keyframes icon-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.icon-bob {
+  animation: icon-bob 1.4s ease-in-out infinite;
 }
 
 .reveal {
