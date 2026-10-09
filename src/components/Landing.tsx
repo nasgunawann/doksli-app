@@ -1,6 +1,18 @@
+import { useRef, useState } from 'react'
 import TabayyunSection from './TabayyunSection'
 import HeroMockup from './HeroMockup'
 import StepIcon, { type StepIconName } from './StepIcon'
+
+type ImageInfo = {
+  url: string
+  name: string
+  isExample: boolean
+}
+
+type Props = {
+  onImage: (img: ImageInfo) => void
+  onDemo: () => void
+}
 
 const steps: { icon: StepIconName; text: string }[] = [
   { icon: 'upload', text: 'Unggah gambar yang ingin diperiksa.' },
@@ -10,7 +22,22 @@ const steps: { icon: StepIconName; text: string }[] = [
   { icon: 'compare', text: 'Teks dan visual dibandingkan, lalu indikasinya ditampilkan.' },
 ]
 
-export default function Landing({ onStart }: { onStart: () => void }) {
+export default function Landing({ onImage, onDemo }: Props) {
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [error, setError] = useState('')
+
+  const openPicker = () => inputRef.current?.click()
+
+  const handleFile = (file: File | undefined | null) => {
+    if (!file) return
+    if (!file.type.startsWith('image/')) {
+      setError('File harus berupa gambar (JPG, PNG, atau WebP).')
+      return
+    }
+    setError('')
+    onImage({ url: URL.createObjectURL(file), name: file.name, isExample: false })
+  }
+
   return (
     <div className="space-y-14">
       <section className="reveal grid gap-10 lg:grid-cols-2 lg:items-center">
@@ -26,12 +53,28 @@ export default function Landing({ onStart }: { onStart: () => void }) {
             Unggah gambar yang perlu diperiksa. Doksli membaca teksnya, mencari sumber
             pembanding, lalu menampilkan indikasi jika teksnya berbeda dari sumbernya.
           </p>
-          <button
-            onClick={onStart}
-            className="btn-hard mt-8 w-full rounded-none border-2 border-ink bg-ink px-7 py-3.5 font-heading text-lg font-semibold text-paper sm:w-auto"
-          >
-            Periksa gambar
-          </button>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <button
+              onClick={openPicker}
+              className="btn-hard w-full rounded-none border-2 border-ink bg-ink px-7 py-3.5 font-heading text-lg font-semibold text-paper sm:w-auto"
+            >
+              Unggah gambar
+            </button>
+            <button
+              onClick={onDemo}
+              className="btn-hard w-full rounded-none border-2 border-ink bg-white px-7 py-3.5 font-heading text-lg font-semibold text-ink sm:w-auto"
+            >
+              Coba demo
+            </button>
+          </div>
+          {error && (
+            <p
+              role="alert"
+              className="mt-4 border-l-4 border-accent bg-accent-soft px-4 py-2 text-sm font-semibold text-accent-ink"
+            >
+              {error}
+            </p>
+          )}
           <p className="mt-4 text-sm text-ink-soft">
             Hasil berupa indikasi yang perlu diperiksa, bukan vonis akhir.
           </p>
@@ -79,13 +122,29 @@ export default function Landing({ onStart }: { onStart: () => void }) {
         <p className="mx-auto mt-4 max-w-md text-paper/75">
           Periksa sekarang, sebelum ikut menyebarkannya.
         </p>
-        <button
-          onClick={onStart}
-          className="btn-hard mt-7 w-full rounded-none border-2 border-paper bg-paper px-7 py-3.5 font-heading text-lg font-semibold text-ink sm:w-auto"
-        >
-          Periksa gambar
-        </button>
+        <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+          <button
+            onClick={openPicker}
+            className="btn-hard w-full rounded-none border-2 border-paper bg-paper px-7 py-3.5 font-heading text-lg font-semibold text-ink sm:w-auto"
+          >
+            Unggah gambar
+          </button>
+          <button
+            onClick={onDemo}
+            className="btn-hard w-full rounded-none border-2 border-paper bg-transparent px-7 py-3.5 font-heading text-lg font-semibold text-paper sm:w-auto"
+          >
+            Coba demo
+          </button>
+        </div>
       </section>
+
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className="sr-only"
+        onChange={(e) => handleFile(e.target.files?.[0])}
+      />
     </div>
   )
 }
