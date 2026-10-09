@@ -1,4 +1,5 @@
 export type StepIconName = 'upload' | 'ocr' | 'visual' | 'search' | 'compare'
+import type { ReactElement } from 'react'
 
 function UploadIcon() {
   return (
@@ -98,7 +99,7 @@ function CompareIcon() {
   )
 }
 
-const ICONS: Record<StepIconName, () => JSX.Element> = {
+const ICONS: Record<StepIconName, () => ReactElement> = {
   upload: UploadIcon,
   ocr: OcrIcon,
   visual: VisualIcon,
